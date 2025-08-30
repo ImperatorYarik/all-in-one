@@ -3,32 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CI Tool</title>
+    <title>AIOpsCI</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Continuous Integration Tool</h1>
-    </header>
-    <main>
-        <section id="pipelines">
-            <h2>Pipelines</h2>
-            <div id="pipeline-list">
-                <!-- List of pipelines will be dynamically generated here -->
+    <div class="cyber-grid">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <div class="logo-icon">◈</div>
+                <h1 class="logo-text">AIOps<span class="accent">CI</span></h1>
+                <div class="version-tag">v2.077</div>
             </div>
-            <button id="add-pipeline">Add Pipeline</button>
-        </section>
-        <section id="jobs">
-            <h2>Jobs</h2>
-            <div id="job-list">
-                <!-- List of jobs will be dynamically generated here -->
+            
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-section="dashboard">
+                    <span class="nav-icon">⬢</span>
+                    <span class="nav-text">Dashboard</span>
+                    <span class="nav-glow"></span>
+                </button>
+                <button class="nav-btn" data-section="pipelines">
+                    <span class="nav-icon">▣</span>
+                    <span class="nav-text">Pipelines</span>
+                    <span class="nav-glow"></span>
+                </button>
+                <!-- <button class="nav-btn" data-section="jobs">
+                    <span class="nav-icon">⚡</span>
+                    <span class="nav-text">Jobs</span>
+                    <span class="nav-glow"></span>
+                </button>
+                <button class="nav-btn" data-section="logs">
+                    <span class="nav-icon">◉</span>
+                    <span class="nav-text">Neural Logs</span>
+                    <span class="nav-glow"></span>
+                </button> -->
+            </nav>
+
+            <div class="status-panel">
+                <div class="status-item">
+                    <span class="status-dot active"></span>
+                    <span>SYSTEM ONLINE</span>
+                </div>
+                <div class="neural-pattern"></div>
             </div>
-            <button id="add-job">Add Job</button>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 CI Tool. All rights reserved.</p>
-    </footer>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="content-header">
+                <div class="scan-line"></div>
+                <div class="header-glow"></div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="page-section active">
+                <div class="section-title">
+                    <h2>DASHBOARD</h2>
+                    <div class="title-accent"></div>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="card-header">TOTAL PIPELINES</div>
+                        <div class="card-value" id="total-pipelines">0</div>
+                        <div class="card-accent"></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="card-header">ACTIVE PROCESSES</div>
+                        <div class="card-value" id="running-jobs">0</div>
+                        <div class="card-accent"></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="card-header">SUCCESS RATE</div>
+                        <div class="card-value" id="success-rate">100%</div>
+                        <div class="card-accent"></div>
+                    </div>
+                </div>
+                <div class="activity-panel">
+                    <div class="panel-header">
+                        <h3>ACTIVITY LOG</h3>
+                        <div class="pulse-indicator"></div>
+                    </div>
+                    <div id="activity-list" class="activity-content"></div>
+                </div>
+            </section>
+
+            <!-- Pipelines Section -->
+            <section id="pipelines" class="page-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h2>PIPELINE MATRIX</h2>
+                        <div class="title-accent"></div>
+                    </div>
+                    <button id="add-pipeline" class="cyber-btn primary">
+                        <span>+ CREATE PIPELINE</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+                <div id="pipeline-list" class="cyber-grid-container">
+                    <!-- Pipelines will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Jobs Section -->
+            <section id="jobs" class="page-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h2>PROCESS QUEUE</h2>
+                        <div class="title-accent"></div>
+                    </div>
+                    <button id="add-job" class="cyber-btn primary">
+                        <span>+ CREATE PROCESS</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+                <div id="job-list" class="cyber-grid-container">
+                    <!-- Jobs will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Logs Section -->
+            <section id="logs" class="page-section">
+                <div class="section-title">
+                    <h2>LOGS</h2>
+                    <div class="title-accent"></div>
+                </div>
+                <div class="log-controls">
+                    <select id="log-filter" class="cyber-select">
+                        <option value="all">ALL CHANNELS</option>
+                        <option value="error">ERROR STREAM</option>
+                        <option value="warning">WARNING BUFFER</option>
+                        <option value="info">INFO FEED</option>
+                    </select>
+                    <button id="clear-logs" class="cyber-btn secondary">PURGE LOGS</button>
+                </div>
+                <div class="log-terminal">
+                    <div class="terminal-header">
+                        <span class="terminal-title">NEURAL INTERFACE v2.077</span>
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                    </div>
+                    <div id="log-container">
+                        <pre id="log-output"></pre>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Cyberpunk Modal -->
+    <div id="modal" class="cyber-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">NEURAL INTERFACE</span>
+                <span class="close">✕</span>
+            </div>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Background Effects -->
+    <div class="cyber-bg">
+        <div class="grid-overlay"></div>
+        <div class="scan-lines"></div>
+    </div>
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
