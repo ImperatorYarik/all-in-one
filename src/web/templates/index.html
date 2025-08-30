@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Continuous Integration Tool</h1>
+    </header>
+    <main>
+        <section id="pipelines">
+            <h2>Pipelines</h2>
+            <div id="pipeline-list">
+                <!-- List of pipelines will be dynamically generated here -->
+            </div>
+            <button id="add-pipeline">Add Pipeline</button>
+        </section>
+        <section id="jobs">
+            <h2>Jobs</h2>
+            <div id="job-list">
+                <!-- List of jobs will be dynamically generated here -->
+            </div>
+            <button id="add-job">Add Job</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 CI Tool. All rights reserved.</p>
+    </footer>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
