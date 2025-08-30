@@ -30,6 +30,11 @@
                     <span class="nav-text">Pipelines</span>
                     <span class="nav-glow"></span>
                 </button>
+                <button class="nav-btn" data-section="settings">
+                    <span class="nav-icon">⚙</span>
+                    <span class="nav-text">Settings</span>
+                    <span class="nav-glow"></span>
+                </button>
                 <!-- <button class="nav-btn" data-section="jobs">
                     <span class="nav-icon">⚡</span>
                     <span class="nav-text">Jobs</span>
@@ -46,6 +51,10 @@
                 <div class="status-item">
                     <span class="status-dot active"></span>
                     <span>SYSTEM ONLINE</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-dot" id="db-status-dot"></span>
+                    <span id="db-status-text">DB DISCONNECTED</span>
                 </div>
                 <div class="neural-pattern"></div>
             </div>
@@ -80,6 +89,11 @@
                         <div class="card-value" id="success-rate">100%</div>
                         <div class="card-accent"></div>
                     </div>
+                    <div class="stat-card">
+                        <div class="card-header">DATABASE STATUS</div>
+                        <div class="card-value" id="db-status-dashboard">DISCONNECTED</div>
+                        <div class="card-accent"></div>
+                    </div>
                 </div>
                 <div class="activity-panel">
                     <div class="panel-header">
@@ -104,6 +118,157 @@
                 </div>
                 <div id="pipeline-list" class="cyber-grid-container">
                     <!-- Pipelines will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="page-section">
+                <div class="section-title">
+                    <h2>SYSTEM SETTINGS</h2>
+                    <div class="title-accent"></div>
+                </div>
+                
+                <div class="settings-grid">
+                    <!-- Database Configuration -->
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>DATABASE CONNECTION</h3>
+                            <div class="connection-status" id="connection-indicator">
+                                <span class="status-dot" id="settings-db-dot"></span>
+                                <span id="settings-db-status">DISCONNECTED</span>
+                            </div>
+                        </div>
+                        
+                        <form id="db-config-form" class="settings-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="db-type">Database Type:</label>
+                                    <select id="db-type" class="cyber-select">
+                                        <option value="postgresql">PostgreSQL</option>
+                                        <option value="mysql">MySQL</option>
+                                        <option value="sqlite">SQLite</option>
+                                        <option value="mongodb">MongoDB</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="db-host">Host:</label>
+                                    <input type="text" id="db-host" placeholder="localhost" value="localhost">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="db-port">Port:</label>
+                                    <input type="number" id="db-port" placeholder="5432" value="5432">
+                                </div>
+                                <div class="form-group">
+                                    <label for="db-name">Database Name:</label>
+                                    <input type="text" id="db-name" placeholder="aiopsci" value="aiopsci">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="db-username">Username:</label>
+                                    <input type="text" id="db-username" placeholder="postgres">
+                                </div>
+                                <div class="form-group">
+                                    <label for="db-password">Password:</label>
+                                    <input type="password" id="db-password" placeholder="••••••••">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="db-connection-string">Connection String (Optional):</label>
+                                <textarea id="db-connection-string" placeholder="postgresql://username:password@host:port/database" rows="3"></textarea>
+                                <small class="form-help">Leave empty to use individual fields above</small>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" id="test-connection" class="cyber-btn secondary">TEST CONNECTION</button>
+                                <button type="submit" class="cyber-btn primary">SAVE CONFIGURATION</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- System Configuration -->
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>SYSTEM CONFIGURATION</h3>
+                        </div>
+                        
+                        <form id="system-config-form" class="settings-form">
+                            <div class="form-group">
+                                <label for="max-concurrent-jobs">Max Concurrent Jobs:</label>
+                                <input type="number" id="max-concurrent-jobs" value="5" min="1" max="50">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="log-retention-days">Log Retention (Days):</label>
+                                <input type="number" id="log-retention-days" value="30" min="1" max="365">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="polling-interval">Polling Interval (Seconds):</label>
+                                <input type="number" id="polling-interval" value="5" min="1" max="300">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-notifications" checked>
+                                    <span class="checkbox-custom"></span>
+                                    Enable System Notifications
+                                </label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="auto-restart-failed">
+                                    <span class="checkbox-custom"></span>
+                                    Auto-restart Failed Jobs
+                                </label>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="cyber-btn primary">SAVE SETTINGS</button>
+                                <button type="button" id="reset-settings" class="cyber-btn danger">RESET TO DEFAULTS</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Security Settings -->
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>SECURITY SETTINGS</h3>
+                        </div>
+                        
+                        <form id="security-config-form" class="settings-form">
+                            <div class="form-group">
+                                <label for="api-key">API Key:</label>
+                                <div class="input-group">
+                                    <input type="password" id="api-key" placeholder="••••••••••••••••">
+                                    <button type="button" id="generate-api-key" class="cyber-btn secondary">GENERATE</button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="session-timeout">Session Timeout (Minutes):</label>
+                                <input type="number" id="session-timeout" value="60" min="5" max="1440">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enable-ssl" checked>
+                                    <span class="checkbox-custom"></span>
+                                    Enable SSL/TLS
+                                </label>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="cyber-btn primary">SAVE SECURITY SETTINGS</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </section>
 
