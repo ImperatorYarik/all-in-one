@@ -6,3 +6,4 @@ pyyaml
 docker
 gitpython
 psutil
+flask_admin
